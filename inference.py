@@ -7,7 +7,7 @@ from data_processing import load_and_normalize_audio, generate_out_of_phase, fra
 
 # Load the trained model
 def load_model(model_path):
-    model = AudioCNN(input_length=16).cuda()
+    model = AudioCNN(input_length=64).cuda()
     model.load_state_dict(torch.load(model_path))
     model.eval()
     return model
@@ -35,7 +35,7 @@ def calculate_phase_coherence(audio):
 # Run inference on the audio file
 def run_inference(model, file_path, output_path):
     out_of_phase_audio, sr, original_audio = preprocess_audio(file_path)
-    out_of_phase_frames = frame_entire_audio(out_of_phase_audio, frame_length=16, hop_length=16)
+    out_of_phase_frames = frame_entire_audio(out_of_phase_audio, frame_length=64, hop_length=32)
     
     in_phase_predictions = []
 
@@ -43,9 +43,7 @@ def run_inference(model, file_path, output_path):
         for i in range(0, len(out_of_phase_frames), 8):
             batch = out_of_phase_frames[i:i + 8]
             batch = torch.tensor(batch, dtype=torch.float32).cuda()
-            print(f"Batch shape before model: {batch.shape}")  # Debug print to check batch shape
             output = model(batch)
-            print(f"Output shape from model: {output.shape}")  # Debug print to check output shape
             in_phase_predictions.extend(output.cpu().numpy())
 
     in_phase_predictions = np.array(in_phase_predictions)
@@ -58,7 +56,7 @@ def run_inference(model, file_path, output_path):
     # Combine the frames back into a single audio signal manually
     num_frames = in_phase_predictions.shape[1]
     frame_length = in_phase_predictions.shape[2]
-    hop_length = 16
+    hop_length = 32
     output_length = hop_length * (num_frames - 1) + frame_length
 
     left_channel = np.zeros(output_length)
@@ -76,6 +74,7 @@ def run_inference(model, file_path, output_path):
     print(f"Length of in-phase audio: {len(in_phase_audio[0])}")  # Debug print for in-phase audio length
 
     # Save the output audio file using soundfile
+    in_phase_audio = librosa.util.normalize(in_phase_audio)
     sf.write(output_path, in_phase_audio.T, sr)  # Note the transpose to match (samples, channels) format
 
     # Calculate and print phase coherence
@@ -87,8 +86,8 @@ def run_inference(model, file_path, output_path):
 
 if __name__ == "__main__":
     model_path = "model/stereosync_model.pth"
-    input_file = "input_audio_file.mp3"
-    output_file = "output_audio_file.mp3"
+    input_file = "input_audio_file.wav"
+    output_file = "output_audio_file.wav"
 
     model = load_model(model_path)
     run_inference(model, input_file, output_file)
