@@ -18,17 +18,6 @@ In audio production, phase issues between the left and right channels of stereo 
 - **Evaluation**: Assess the model's performance using appropriate metrics and fine-tune it for optimal results.
 - **Deployment**: Develop an inference pipeline that can be used to correct phase issues in new audio recordings.
 
-### Project Structure
-
-stereosync/
-│
-├── data_processing.py # Code for loading, normalizing, and framing audio
-├── model.py # Definition of the CNN model
-├── train.py # Training loop and dataset class
-├── utils.py # Utility functions
-├── config.py # Configuration file for parameters and settings
-└── main.py # Main entry point to run the training
-
 ### Features
 
 - **Audio Processing**: Efficient loading, normalization, and framing of stereo audio files.
