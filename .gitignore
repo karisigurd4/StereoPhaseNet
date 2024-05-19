@@ -1,0 +1,12 @@
+# Ignore __pycache__ directories
+__pycache__/
+**/__pycache__/
+
+# Ignore data directory
+/data/
+
+# Ignore hold directory
+/hold/
+
+# Ignore inference files
+*.mp3
