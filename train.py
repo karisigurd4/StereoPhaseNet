@@ -28,7 +28,7 @@ class AudioDataset(Dataset):
     def __getitem__(self, idx):
         return (self.frames[idx], self.targets[idx])
         
-def train_model(audio_files, frame_length=256, hop_length=128, epochs=10, batch_size=8, model_save_path="model/stereosync_model.pth"):
+def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_size=8, model_save_path="model/model_epoch_{}.pth"):
     dataset = AudioDataset(audio_files, frame_length=frame_length, hop_length=hop_length)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
@@ -54,4 +54,5 @@ def train_model(audio_files, frame_length=256, hop_length=128, epochs=10, batch_
         avg_loss = epoch_loss / len(dataloader)
         print(f'Epoch {epoch + 1}/{epochs}, Loss: {avg_loss}')
 
-    torch.save(model.state_dict(), model_save_path)
+        # Save the model at the end of each epoch
+        torch.save(model.state_dict(), model_save_path.format(epoch + 1))

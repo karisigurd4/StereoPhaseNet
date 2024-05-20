@@ -6,9 +6,11 @@ class AudioCNN(nn.Module):
         super(AudioCNN, self).__init__()
         self.input_length = input_length
 
-        self.conv1 = nn.Conv1d(in_channels=2, out_channels=32, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv1d(in_channels=32, out_channels=64, kernel_size=3, padding=1)
-        self.conv3 = nn.Conv1d(in_channels=64, out_channels=128, kernel_size=3, padding=1)
+        self.conv1 = nn.Conv1d(in_channels=2, out_channels=16, kernel_size=3, padding=1)
+        self.bn1 = nn.BatchNorm1d(16)
+        self.conv2 = nn.Conv1d(in_channels=16, out_channels=32, kernel_size=3, padding=1)
+        self.bn2 = nn.BatchNorm1d(32)
+        self.dropout = nn.Dropout(0.5)
 
         self._initialize_weights()
         with torch.no_grad():
@@ -31,9 +33,10 @@ class AudioCNN(nn.Module):
                 nn.init.constant_(m.bias, 0)
 
     def _forward_conv(self, x):
-        x = torch.relu(self.conv1(x))
-        x = torch.relu(self.conv2(x))
-        x = torch.relu(self.conv3(x))
+        x = torch.relu(self.bn1(self.conv1(x)))
+        x = torch.relu(self.bn2(self.conv2(x)))
+        x = torch.relu(self.bn3(self.conv3(x)))
+        x = self.dropout(x)
         return x
 
     def forward(self, x):
