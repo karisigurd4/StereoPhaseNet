@@ -35,7 +35,6 @@ class AudioCNN(nn.Module):
     def _forward_conv(self, x):
         x = torch.relu(self.bn1(self.conv1(x)))
         x = torch.relu(self.bn2(self.conv2(x)))
-        x = torch.relu(self.bn3(self.conv3(x)))
         x = self.dropout(x)
         return x
 
