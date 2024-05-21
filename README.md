@@ -40,7 +40,7 @@ In this project, we developed a deep learning model to address phase correction 
 - **Loss**: The training loss showed a decreasing trend initially but began to stagnate towards the later epochs, suggesting that the model had reached its capacity to learn from the given dataset.
 
 <p align="center">
- <img src="https://github.com/karisigurd4/StereoPhaseNet/raw/master/StereoPhaseNet/Results.png" />
+ <img src=[https://github.com/karisigurd4/StereoPhaseNet/raw/master/StereoPhaseNet/Results.png" />
 </p>
 
 ### Observations
