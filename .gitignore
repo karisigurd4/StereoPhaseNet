@@ -10,3 +10,4 @@ __pycache__/
 
 # Ignore inference files
 *.mp3
+*.wav

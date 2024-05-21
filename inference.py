@@ -7,7 +7,7 @@ from data_processing import load_and_normalize_audio, generate_out_of_phase, fra
 
 # Load the trained model
 def load_model(model_path):
-    model = AudioCNN(input_length=256).cuda()
+    model = AudioCNN(input_length=512).cuda()
     model.load_state_dict(torch.load(model_path))
     model.eval()
     return model
@@ -35,7 +35,7 @@ def calculate_phase_coherence(audio):
 # Run inference on the audio file
 def run_inference(model, file_path, output_path):
     out_of_phase_audio, sr, original_audio = preprocess_audio(file_path)
-    out_of_phase_frames = frame_entire_audio(out_of_phase_audio, frame_length=256, hop_length=128)
+    out_of_phase_frames = frame_entire_audio(out_of_phase_audio, frame_length=512, hop_length=256)
     
     in_phase_predictions = []
 
@@ -58,7 +58,7 @@ def run_inference(model, file_path, output_path):
     # Combine the frames back into a single audio signal manually
     num_frames = in_phase_predictions.shape[1]
     frame_length = in_phase_predictions.shape[2]
-    hop_length = 128
+    hop_length = 256
     output_length = hop_length * (num_frames - 1) + frame_length
 
     left_channel = np.zeros(output_length)
@@ -93,8 +93,8 @@ def run_inference(model, file_path, output_path):
 
 if __name__ == "__main__":
     model_path = "model/stereosync_model.pth"
-    input_file = "input_audio_file.wav"
-    output_file = "output_audio_file.wav"
+    input_file = "input_audio_file.mp3"
+    output_file = "output_audio_file.mp3"
 
     model = load_model(model_path)
     run_inference(model, input_file, output_file)
