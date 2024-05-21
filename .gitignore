@@ -8,6 +8,9 @@ __pycache__/
 # Ignore hold directory
 /hold/
 
+# Ignore model directory
+/model/
+
 # Ignore inference files
 *.mp3
 *.wav
