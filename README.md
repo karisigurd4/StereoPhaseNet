@@ -38,10 +38,8 @@ In this project, we developed a deep learning model to address phase correction 
 
 - **Phase Coherence Improvement**: The trained model demonstrated an improvement in phase coherence of the output audio compared to the input out-of-phase audio. On average, we observed an increase of approximately 0.06 - 0.15 in phase coherence, indicating the model's ability to learn and correct phase discrepancies.
 - **Loss**: The training loss showed a decreasing trend initially but began to stagnate towards the later epochs, suggesting that the model had reached its capacity to learn from the given dataset.
-
-<p align="center">
- <img src=[https://github.com/karisigurd4/StereoPhaseNet/raw/master/StereoPhaseNet/Results.png" />
-</p>
+  
+<img src="https://github.com/karisigurd4/StereoPhaseNet/blob/main/Results.png" />
 
 ### Observations
 
