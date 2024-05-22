@@ -2,12 +2,13 @@ import torch
 import numpy as np
 import librosa
 import soundfile as sf
-from model import AudioCNN
+from audio_cnn import AudioCNN
 from data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
+from audio_transformer import AudioTransformer
 
 # Load the trained model
 def load_model(model_path):
-    model = AudioCNN(input_length=512).cuda()
+    model = AudioTransformer(input_length=512).cuda()
     model.load_state_dict(torch.load(model_path))
     model.eval()
     return model
@@ -71,10 +72,10 @@ def run_inference(model, file_path, output_path):
         right_channel[start:start + frame_length] += in_phase_predictions[1, i, :] * window
 
     # Normalize the audio to prevent clipping and numerical instability
-    max_val = max(np.max(np.abs(left_channel)), np.max(np.abs(right_channel)))
-    if max_val > 1.0:
-        left_channel /= max_val
-        right_channel /= max_val
+    # max_val = max(np.max(np.abs(left_channel)), np.max(np.abs(right_channel)))
+    # if max_val > 1.0:
+    #     left_channel /= max_val
+    #     right_channel /= max_val
 
     in_phase_audio = np.vstack((left_channel, right_channel))
 
@@ -92,7 +93,7 @@ def run_inference(model, file_path, output_path):
     print(f"Output Phase Coherence: {output_phase_coherence:.4f}")
 
 if __name__ == "__main__":
-    model_path = "model/stereosync_model.pth"
+    model_path = "model/model_epoch_4.pth"
     input_file = "input_audio_file.mp3"
     output_file = "output_audio_file.mp3"
 

@@ -1,6 +1,5 @@
 # Configurations and Hyperparameters
-FRAME_LENGTH = 1024
-HOP_LENGTH = 512
+FRAME_LENGTH = 512
+HOP_LENGTH = 256
 EPOCHS = 10
 BATCH_SIZE = 8
-LEARNING_RATE = 1e-4

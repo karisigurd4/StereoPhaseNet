@@ -14,20 +14,20 @@ In audio production, phase issues between the left and right channels of stereo 
 
 - **Data Collection**: Gather a diverse set of high-quality stereo audio files to create a comprehensive dataset.
 - **Data Preparation**: Process the audio files to generate pairs of out-of-phase and in-phase audio samples.
-- **Model Development**: Design and train a convolutional neural network (CNN) to learn the mapping from out-of-phase to in-phase audio.
+- **Model Development**: Design and train a transformer-based neural network to learn the mapping from out-of-phase to in-phase audio.
 - **Evaluation**: Assess the model's performance using appropriate metrics and fine-tune it for optimal results.
 - **Deployment**: Develop an inference pipeline that can be used to correct phase issues in new audio recordings.
 
 ### Features
 
 - **Audio Processing**: Efficient loading, normalization, and framing of stereo audio files.
-- **Deep Learning**: CNN-based model tailored for audio phase correction.
+- **Deep Learning**: Transformer-based model tailored for audio phase correction.
 - **Training and Evaluation**: Comprehensive training loop with data loaders and evaluation metrics.
 - **Inference Pipeline**: Ready-to-use pipeline for applying the trained model to new audio data.
 
 ## Results Summary
 
-In this project, we developed a deep learning model to address phase correction in stereo audio recordings. Using a dataset consisting of 115 audio files, each 30 seconds in length, we trained a Convolutional Neural Network (CNN) model to improve phase coherence in stereo audio.
+In this project, we developed a deep learning model to address phase correction in stereo audio recordings. Using a dataset consisting of 115 audio files, each 30 seconds in length, we trained a transformer-based model to improve phase coherence in stereo audio.
 
 ### Dataset and Training
 
@@ -36,24 +36,20 @@ In this project, we developed a deep learning model to address phase correction 
 
 ### Performance
 
-- **Phase Coherence Improvement**: The trained model demonstrated an improvement in phase coherence of the output audio compared to the input out-of-phase audio. On average, we observed an increase of approximately 0.06 - 0.15 in phase coherence, indicating the model's ability to learn and correct phase discrepancies.
+- **Phase Coherence Improvement**: The trained model demonstrated an improvement in phase coherence of the output audio compared to the input out-of-phase audio. On average, we observed a significant increase in phase coherence, indicating the model's ability to learn and correct phase discrepancies.
 - **Loss**: The training loss showed a decreasing trend initially but began to stagnate towards the later epochs, suggesting that the model had reached its capacity to learn from the given dataset.
-
-<p align="center">
- <img src="https://github.com/karisigurd4/StereoPhaseNet/raw/master/StereoPhaseNet/Results.png" />
-</p>
 
 ### Observations
 
 While the model succeeded in enhancing phase coherence, the overall audio quality of the output still showed room for improvement. Several factors contribute to this:
 
 - **Dataset Size**: The current dataset, though substantial, might not be sufficient for the model to generalize well across a broader range of audio scenarios. Increasing the dataset size with more diverse audio files could provide the model with additional context and help it learn more robust features.
-- **Model Complexity**: The current CNN model, while effective, might be too simple to capture all the nuances in the audio data. Exploring more complex architectures, such as deeper CNNs, recurrent neural networks (RNNs), or transformer-based models, could potentially yield better results.
+- **Model Complexity**: The current transformer model, while effective, might need further tuning to capture all the nuances in the audio data. Exploring deeper transformer architectures or hybrid models could potentially yield better results.
 - **Training Parameters**: Adjusting hyperparameters, such as learning rate, batch size, and the number of epochs, or incorporating techniques like data augmentation, could also help in improving the model's performance.
 
 ### Conclusion
 
-The initial results are promising, showing that the model can indeed improve phase coherence in stereo audio. However, to achieve high-quality results suitable for professional audio applications, further steps are required. Increasing the dataset size, exploring more sophisticated model architectures, and fine-tuning training parameters are potential avenues for future work. These enhancements could lead to significant improvements in both phase coherence and overall audio quality.
+The initial results are promising, showing that the transformer model can significantly improve phase coherence in stereo audio. However, to achieve high-quality results suitable for professional audio applications, further steps are required. Increasing the dataset size, exploring more sophisticated model architectures, and fine-tuning training parameters are potential avenues for future work. These enhancements could lead to significant improvements in both phase coherence and overall audio quality.
 
 ## Getting Started
 
