@@ -7,9 +7,21 @@ def load_and_normalize_audio(file_path):
     return y, sr
 
 def generate_out_of_phase(audio):
-    audio_out_of_phase = np.copy(audio)
-    audio_out_of_phase[0] = -audio_out_of_phase[0]  # Invert one channel
-    return audio_out_of_phase
+    # Ensure audio is stereo
+    if audio.ndim != 2 or audio.shape[0] != 2:
+        raise ValueError("Input audio must be stereo with shape (2, samples)")
+    
+    # Mid/Side transformation
+    mid = (audio[0] + audio[1]) / 2.0
+    side = (audio[0] - audio[1]) / 2.0
+    
+    # Normalize the side channel
+    max_val = np.max(np.abs(side))
+    if max_val > 0:
+        side = side / max_val
+    
+    # Return the Side component as both channels in stereo format
+    return np.array([side, side])
 
 def frame_audio(audio, frame_length=16, hop_length=16):
     # Ensure audio is stereo

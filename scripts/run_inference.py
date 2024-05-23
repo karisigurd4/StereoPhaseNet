@@ -2,9 +2,9 @@ import torch
 import numpy as np
 import librosa
 import soundfile as sf
-from audio_cnn import AudioCNN
-from data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
-from audio_transformer import AudioTransformer
+from src.audio_cnn import AudioCNN
+from src.data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
+from src.audio_transformer import AudioTransformer
 
 # Load the trained model
 def load_model(model_path):
@@ -93,9 +93,9 @@ def run_inference(model, file_path, output_path):
     print(f"Output Phase Coherence: {output_phase_coherence:.4f}")
 
 if __name__ == "__main__":
-    model_path = "model/model_epoch_4.pth"
-    input_file = "input_audio_file.mp3"
-    output_file = "output_audio_file.mp3"
+    model_path = "../model/model_epoch_1.pth"
+    input_file = "../input_audio_file.mp3"
+    output_file = "../output_audio_file.mp3"
 
     model = load_model(model_path)
     run_inference(model, input_file, output_file)

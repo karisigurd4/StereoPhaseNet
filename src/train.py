@@ -1,8 +1,8 @@
 import torch
 from torch.utils.data import DataLoader
-from audio_transformer import AudioTransformer
+from src.audio_transformer import AudioTransformer
 import csv
-from data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
+from src.data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
 import numpy as np
 import librosa
 import datetime
@@ -43,7 +43,7 @@ def calculate_phase_coherence(audio):
     phase_coherence = np.abs(np.mean(np.cos(phase_diff)))
     return phase_coherence
 
-def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_size=8, model_save_path="model/model_epoch_{}.pth"):
+def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_size=8, model_save_path="../model/model_epoch_{}.pth"):
     train_files, val_files = train_test_split(audio_files, test_size=0.2, random_state=42)
     
     train_dataset = AudioDataset(train_files, frame_length=frame_length, hop_length=hop_length)
@@ -58,7 +58,7 @@ def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=3, factor=0.5)
 
     # Initialize CSV logging
-    log_file = "training_log.csv"
+    log_file = "../logs/training_log.csv"
     with open(log_file, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Epoch", "Training Loss", "Validation Loss", "Phase Coherence", "Learning Rate"])
