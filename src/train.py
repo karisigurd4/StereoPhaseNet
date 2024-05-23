@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from src.audio_transformer import AudioTransformer
+from src.audio_transformer import Wav2Vec2ForPhaseCorrection
 import csv
 from src.data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
 import numpy as np
@@ -43,7 +43,7 @@ def calculate_phase_coherence(audio):
     phase_coherence = np.abs(np.mean(np.cos(phase_diff)))
     return phase_coherence
 
-def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_size=8, model_save_path="../model/model_epoch_{}.pth"):
+def train_model(audio_files, frame_length=16000, hop_length=8000, epochs=10, batch_size=8, model_save_path="../model/model_epoch_{}.pth"):
     train_files, val_files = train_test_split(audio_files, test_size=0.2, random_state=42)
     
     train_dataset = AudioDataset(train_files, frame_length=frame_length, hop_length=hop_length)
@@ -52,9 +52,9 @@ def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-    model = AudioTransformer(input_length=frame_length).cuda()
+    model = Wav2Vec2ForPhaseCorrection(input_length=frame_length).cuda()
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=3, factor=0.5)
 
     # Initialize CSV logging
@@ -80,10 +80,11 @@ def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_
             optimizer.zero_grad()
             outputs = model(frames)
             
-            # Debug: Print the first few outputs and targets to check values
-            if batch_idx == 0 and epoch == 0:
-                print(f"Initial outputs: {outputs[0]}")
-                print(f"Initial targets: {targets[0]}")
+            # Resize targets to match the outputs
+            batch_size, num_channels, seq_length = outputs.shape
+
+            # Ensure the targets and outputs have compatible shapes
+            targets = targets[:, :, :seq_length]
 
             loss = criterion(outputs, targets)
             loss.backward()
@@ -109,6 +110,10 @@ def train_model(audio_files, frame_length=512, hop_length=256, epochs=10, batch_
                 frames = frames.cuda()
                 targets = targets.cuda()
                 outputs = model(frames)
+                
+                # Ensure targets match the sequence length of outputs
+                if outputs.shape[2] != targets.shape[2]:
+                    targets = targets[:, :, :outputs.shape[2]]
                 loss = criterion(outputs, targets)
                 val_loss += loss.item()
 

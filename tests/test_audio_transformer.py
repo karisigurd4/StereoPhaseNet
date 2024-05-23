@@ -1,16 +1,16 @@
 import pytest
 import torch
-from src.models.audio_transformer import AudioTransformer
+from src.models.audio_transformer import Wav2Vec2ForPhaseCorrection
 
 # Define test parameters
 BATCH_SIZE = 8
 NUM_CHANNELS = 2
-SEQ_LENGTH = 512
+SEQ_LENGTH = 16000  # Adjusted to match the new model's input length
 HIDDEN_SIZE = 512
 
 def test_audio_transformer_forward():
     # Instantiate the model
-    model = AudioTransformer(input_length=SEQ_LENGTH, hidden_size=HIDDEN_SIZE)
+    model = Wav2Vec2ForPhaseCorrection(input_length=SEQ_LENGTH, hidden_size=HIDDEN_SIZE)
 
     # Create a dummy input tensor [batch_size, num_channels, seq_length]
     dummy_input = torch.randn(BATCH_SIZE, NUM_CHANNELS, SEQ_LENGTH)

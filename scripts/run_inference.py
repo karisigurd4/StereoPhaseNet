@@ -1,8 +1,15 @@
+import sys
+import os
+
+# Add the root directory of the project to the Python path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
+
 import torch
 import numpy as np
 import librosa
 import soundfile as sf
-from src.audio_cnn import AudioCNN
 from src.data_processing import load_and_normalize_audio, generate_out_of_phase, frame_entire_audio
 from src.audio_transformer import AudioTransformer
 
@@ -93,7 +100,7 @@ def run_inference(model, file_path, output_path):
     print(f"Output Phase Coherence: {output_phase_coherence:.4f}")
 
 if __name__ == "__main__":
-    model_path = "../model/model_epoch_1.pth"
+    model_path = "../model/model_epoch_3.pth"
     input_file = "../input_audio_file.mp3"
     output_file = "../output_audio_file.mp3"
 

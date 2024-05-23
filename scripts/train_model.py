@@ -7,7 +7,6 @@ project_root = os.path.dirname(current_dir)
 sys.path.append(project_root)
 
 from src.train import train_model
-from src.config import *
 import glob
 
 def main():
@@ -16,10 +15,11 @@ def main():
     
     train_model(
         audio_files, 
-        frame_length=FRAME_LENGTH, 
-        hop_length=HOP_LENGTH, 
-        epochs=EPOCHS, 
-        batch_size=BATCH_SIZE
+        frame_length=16000, 
+        hop_length=8000, 
+        epochs=10, 
+        batch_size=8,
+        model_save_path="../model/model_epoch_{}.pth"
     )
 
 if __name__ == "__main__":
