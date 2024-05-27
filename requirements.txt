@@ -3,3 +3,4 @@ librosa
 torch
 transformers
 soundfile
+torchaudio

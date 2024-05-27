@@ -11,6 +11,7 @@ setup(
         'torch',
         'transformers',
         'soundfile',
+        'torchaudio',
     ],
     entry_points={
         'console_scripts': [

@@ -10,13 +10,14 @@ from src.train import train_model
 import glob
 
 def main():
-    # Example audio file paths
-    audio_files = glob.glob(os.path.join(project_root, 'data', '*.mp3'))
-    
+    input_audio_files = glob.glob(os.path.join(project_root, 'data/unprocessed/', '*.wav'))
+    processed_audio_files = glob.glob(os.path.join(project_root, 'data/processed/', '*.wav'))
+
     train_model(
-        audio_files, 
-        frame_length=16000, 
-        hop_length=8000, 
+        input_audio_files, 
+        processed_audio_files,
+        frame_length=22050,
+        hop_length=11025, 
         epochs=10, 
         batch_size=8,
         model_save_path="../model/model_epoch_{}.pth"
