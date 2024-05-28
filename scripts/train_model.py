@@ -16,8 +16,8 @@ def main():
     train_model(
         input_audio_files, 
         processed_audio_files,
-        frame_length=22050,
-        hop_length=11025, 
+        frame_length=2048,
+        hop_length=1024, 
         epochs=10, 
         batch_size=8,
         model_save_path="../model/model_epoch_{}.pth"

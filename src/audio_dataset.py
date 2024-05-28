@@ -33,6 +33,8 @@ class AudioDataset(Dataset):
             input_audio, sr = load_and_normalize_audio(input_file)
             target_audio, sr = load_and_normalize_audio(target_file)
             
+            print (f"Input file: {input_file} - Target file: {target_file}")
+
             # Ensure audio is stereo
             if input_audio.ndim == 1:
                 input_audio = np.stack([input_audio, input_audio])

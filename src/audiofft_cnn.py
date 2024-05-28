@@ -6,12 +6,10 @@ class AudioFFT_CNN(nn.Module):
         super(AudioFFT_CNN, self).__init__()
         self.input_length = input_length
 
-        self.conv1 = nn.Conv1d(in_channels=2, out_channels=32, kernel_size=3, padding=1)
-        self.bn1 = nn.BatchNorm1d(32)
-        self.conv2 = nn.Conv1d(in_channels=32, out_channels=64, kernel_size=3, padding=1)
-        self.bn2 = nn.BatchNorm1d(64)
-        self.conv3 = nn.Conv1d(in_channels=64, out_channels=128, kernel_size=3, padding=1)
-        self.bn3 = nn.BatchNorm1d(128)
+        self.conv1 = nn.Conv1d(in_channels=2, out_channels=16, kernel_size=3, padding=1)
+        self.bn1 = nn.BatchNorm1d(16)
+        self.conv2 = nn.Conv1d(in_channels=16, out_channels=32, kernel_size=3, padding=1)
+        self.bn2 = nn.BatchNorm1d(32)
         self.dropout = nn.Dropout(0.5)
 
         self._initialize_weights()
@@ -37,7 +35,6 @@ class AudioFFT_CNN(nn.Module):
     def _forward_conv(self, x):
         x = torch.relu(self.bn1(self.conv1(x)))
         x = torch.relu(self.bn2(self.conv2(x)))
-        x = torch.relu(self.bn3(self.conv3(x)))
         x = self.dropout(x)
         return x
 

@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from src.audiofft_cnn import AudioFFT_CNN
+from src.audio_transformer import AudioTransformer
 from sklearn.model_selection import train_test_split
 from src.audio_dataset import AudioDataset
 
@@ -17,7 +17,7 @@ def train_model(input_files, target_files, frame_length=512, hop_length=256, epo
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
-    model = AudioFFT_CNN(input_length=frame_length).cuda()  # Update input length for FFT
+    model = AudioTransformer(input_length=frame_length).cuda() 
     criterion = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=3, factor=0.5)

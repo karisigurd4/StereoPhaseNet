@@ -15,8 +15,8 @@ from src.data_processing import load_and_normalize_audio, frame_entire_audio, ap
 from src.audiofft_cnn import AudioFFT_CNN
 import matplotlib.pyplot as plt
 
-inference_frame_length = 1024
-inference_hop_length = 512
+inference_frame_length = 22050
+inference_hop_length = 11025
 
 # Load the trained model
 def load_model(model_path, frame_length):
@@ -86,14 +86,13 @@ def run_inference(model, file_path, output_path):
     plt.title('Delta FFT Predictions for Frame 0, Channel 0')
     plt.show()
 
-    # Convert FFT frames back to time domain using inverse FFT
     processed_frames = input_frames + delta_prediction_frames
 
     output_audio(processed_frames, output_file, sr)
     output_audio(delta_prediction_frames, "../delta.wav", sr)
 
 if __name__ == "__main__":
-    model_path = "../model/model_epoch_1.pth"
+    model_path = "../model/model_epoch_2.pth"
     input_file = "../input_audio_file.wav"
     output_file = "../output_audio_file.wav"
 
